@@ -1,15 +1,14 @@
 const { randomUUID } = require('node:crypto');
 const documentRepository = require('../repositories/documentRepository');
 
-function registerUpload(file, owner) {
+function createDocument({ originalName, size, owner, storagePath }) {
   return documentRepository.create({
     id: randomUUID(),
-    originalName: file.originalname,
-    size: file.size,
+    originalName,
+    size,
     uploadedAt: new Date().toISOString(),
     owner,
-    storedName: file.filename,
-    storagePath: file.path,
+    storagePath,
   });
 }
 
@@ -22,7 +21,7 @@ function getDocumentForOwner(id, owner) {
 }
 
 module.exports = {
-  registerUpload,
+  createDocument,
   listDocuments,
   getDocumentForOwner,
 };
