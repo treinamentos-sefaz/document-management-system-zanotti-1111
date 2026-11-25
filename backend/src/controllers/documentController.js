@@ -43,7 +43,12 @@ async function upload(req, res, next) {
   }
 
   try {
-    const document = documentService.registerUpload(req.file, req.owner);
+    const document = documentService.createDocument({
+      originalName: req.file.originalname,
+      size: req.file.size,
+      owner: req.owner,
+      storagePath: req.file.path,
+    });
     return res.status(201).json(document);
   } catch (error) {
     try {
